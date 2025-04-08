@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>우리동네 성지 찾기</title>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: #f8f8f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+    h2 {
+      color: #333;
+    }
+    input {
+      width: 300px;
+      padding: 12px;
+      font-size: 16px;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2db400;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #259200;
+    }
+    .tip {
+      font-size: 14px;
+      margin-top: 10px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h2>우리동네 휴대폰 성지 검색하기</h2>
+  <input type="text" id="addrInput" placeholder="예: 전주 완산구">
+  <button onclick="goSearch()">검색</button>
+  <p class="tip">※ 동/구/시 단위로 검색하시면 더 정확해요</p>
+
+  <script>
+    function goSearch() {
+      const keyword = document.getElementById('addrInput').value.trim();
+      if (!keyword) {
+        alert("주소를 입력해주세요.");
+        return;
+      }
+      const query = encodeURIComponent(keyword);
+      const url = "https://cafe.naver.com/ArticleSearchList.nhn?search.clubid=카페ID&search.query=" + query;
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>
