@@ -2,64 +2,84 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>우리동네 성지 찾기</title>
+  <title>우리동네 성지 검색</title>
   <style>
     body {
       font-family: 'Noto Sans KR', sans-serif;
-      background: #f8f8f8;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background-color: #f9f9f9;
       padding: 40px;
-    }
-    h2 {
-      color: #333;
+      text-align: center;
     }
     input {
       width: 300px;
-      padding: 12px;
+      padding: 10px;
       font-size: 16px;
-      margin-top: 20px;
       border: 1px solid #ccc;
       border-radius: 8px;
     }
-    button {
+    ul {
+      list-style: none;
+      padding: 0;
       margin-top: 15px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #2db400;
-      color: white;
-      border: none;
-      border-radius: 8px;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    li {
+      background: #fff;
+      border: 1px solid #ddd;
+      margin-bottom: 5px;
+      padding: 10px;
+      border-radius: 6px;
       cursor: pointer;
     }
-    button:hover {
-      background-color: #259200;
-    }
-    .tip {
-      font-size: 14px;
-      margin-top: 10px;
-      color: #666;
+    li:hover {
+      background-color: #f0f0f0;
     }
   </style>
 </head>
 <body>
-  <h2>우리동네 휴대폰 성지 검색하기</h2>
-  <input type="text" id="addrInput" placeholder="예: 전주 완산구">
-  <button onclick="goSearch()">검색</button>
-  <p class="tip">※ 동/구/시 단위로 검색하시면 더 정확해요</p>
+
+  <h2>우리동네 휴대폰 성지 검색</h2>
+  <input type="text" id="addrInput" placeholder="예: 부천시, 전주시" oninput="filterResults()">
+  <ul id="resultList"></ul>
 
   <script>
-    function goSearch() {
-      const keyword = document.getElementById('addrInput').value.trim();
-      if (!keyword) {
-        alert("주소를 입력해주세요.");
+    const storeList = [
+      { name: "부천역점", keyword: "부천역", url: "https://cafe.naver.com/bjphone?iframe_url=/ArticleList.nhn%3Fsearch.clubid=14006524%26search.menuid=2378%26search.boardtype=L" },
+      { name: "부천상동점", keyword: "상동", url: "https://cafe.naver.com/bjphone?iframe_url=/ArticleList.nhn%3Fsearch.clubid=14006524%26search.menuid=2378%26search.boardtype=L" },
+      { name: "부천중동점", keyword: "중동", url: "https://cafe.naver.com/당신의카페명?search.query=중동" },
+      { name: "전주완산점", keyword: "완산구", url: "https://cafe.naver.com/당신의카페명?search.query=완산구" },
+      { name: "전주덕진점", keyword: "덕진구", url: "https://cafe.naver.com/당신의카페명?search.query=덕진구" },
+      // 필요에 따라 계속 추가 가능
+    ];
+
+    function filterResults() {
+      const input = document.getElementById('addrInput').value.trim().toLowerCase();
+      const list = document.getElementById('resultList');
+      list.innerHTML = '';
+
+      if (input.length < 2) return;
+
+      const filtered = storeList.filter(store => store.keyword.includes(input) || store.name.includes(input));
+
+      if (filtered.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = "해당 지역의 지점을 찾을 수 없습니다.";
+        list.appendChild(li);
         return;
       }
-      const query = encodeURIComponent(keyword);
-      const url = "https://cafe.naver.com/ArticleSearchList.nhn?search.clubid=카페ID&search.query=" + query;
-      window.open(url, "_blank");
+
+      filtered.forEach(store => {
+        const li = document.createElement('li');
+        li.textContent = store.name;
+        li.onclick = () => {
+          window.open(store.url, "_blank");
+        };
+        list.appendChild(li);
+      });
     }
   </script>
+
 </body>
 </html>
