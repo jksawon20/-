@@ -28,13 +28,19 @@
     li {
       background: #fff;
       border: 1px solid #ddd;
-      margin-bottom: 5px;
-      padding: 10px;
+      margin-bottom: 8px;
+      padding: 12px;
       border-radius: 6px;
       cursor: pointer;
+      transition: background-color 0.2s;
     }
     li:hover {
       background-color: #f0f0f0;
+    }
+    .note {
+      font-size: 13px;
+      color: #666;
+      margin-top: 6px;
     }
   </style>
 </head>
@@ -70,7 +76,9 @@
 
       if (input.length < 1) return;
 
-      const filtered = storeList.filter(store => store.keyword.includes(input) || store.name.includes(input));
+      const filtered = storeList.filter(store =>
+        store.keyword.toLowerCase().includes(input) || store.name.toLowerCase().includes(input)
+      );
 
       if (filtered.length === 0) {
         const li = document.createElement('li');
@@ -82,3 +90,19 @@
       filtered.forEach(store => {
         const li = document.createElement('li');
         li.textContent = store.name;
+
+        const note = document.createElement('div');
+        note.className = 'note';
+        note.textContent = "※ 일부 게시판은 네이버 카페 회원만 열람 가능합니다.";
+
+        li.appendChild(note);
+        li.onclick = () => {
+          window.open(store.url, '_blank');
+        };
+        list.appendChild(li);
+      });
+    }
+  </script>
+
+</body>
+</html>
