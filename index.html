@@ -41,17 +41,26 @@
 <body>
 
   <h2>우리동네 휴대폰 성지 검색</h2>
-  <input type="text" id="addrInput" placeholder="예: 부천시, 전주시" oninput="filterResults()">
+  <input type="text" id="addrInput" placeholder="예: 부천, 전주, 강남" oninput="filterResults()">
   <ul id="resultList"></ul>
 
   <script>
     const storeList = [
-      { name: "부천", keyword: "부천", url: "https://cafe.naver.com/bjphone?iframe_url=/ArticleList.nhn%3Fsearch.clubid=14006524%26search.menuid=2378%26search.boardtype=L" },
-      { name: "부천", keyword: "부천", url: "https://cafe.naver.com/bjphone?iframe_url=/ArticleList.nhn%3Fsearch.clubid=14006524%26search.menuid=2378%26search.boardtype=L" },
-      { name: "부천중동점", keyword: "중동", url: "https://cafe.naver.com/당신의카페명?search.query=중동" },
-      { name: "전주완산점", keyword: "완산구", url: "https://cafe.naver.com/당신의카페명?search.query=완산구" },
-      { name: "전주덕진점", keyword: "덕진구", url: "https://cafe.naver.com/당신의카페명?search.query=덕진구" },
-      // 필요에 따라 계속 추가 가능
+      {
+        name: "부천지점",
+        keyword: "부천",
+        url: "https://cafe.naver.com/bjphone?iframe_url=/ArticleList.nhn?search.clubid=14006524&search.menuid=2378&search.boardtype=L"
+      },
+      {
+        name: "전주완산지점",
+        keyword: "전주",
+        url: "https://cafe.naver.com/examplecafe?iframe_url=/ArticleList.nhn?search.clubid=12345678&search.menuid=1111"
+      },
+      {
+        name: "전주덕진지점",
+        keyword: "전주",
+        url: "https://cafe.naver.com/examplecafe?iframe_url=/ArticleList.nhn?search.clubid=12345678&search.menuid=2222"
+      }
     ];
 
     function filterResults() {
@@ -59,7 +68,7 @@
       const list = document.getElementById('resultList');
       list.innerHTML = '';
 
-      if (input.length < 2) return;
+      if (input.length < 1) return;
 
       const filtered = storeList.filter(store => store.keyword.includes(input) || store.name.includes(input));
 
@@ -73,13 +82,3 @@
       filtered.forEach(store => {
         const li = document.createElement('li');
         li.textContent = store.name;
-        li.onclick = () => {
-          window.open(store.url, "_blank");
-        };
-        list.appendChild(li);
-      });
-    }
-  </script>
-
-</body>
-</html>
